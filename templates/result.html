@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Risk Assessment Result</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: #0f172a;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        .container {
+            background: #1e293b;
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+            text-align: center;
+        }
+        .result-icon { font-size: 4rem; margin-bottom: 1rem; }
+        .risk-tier {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .low  { color: #22c55e; }
+        .medium { color: #f59e0b; }
+        .high { color: #ef4444; }
+        .recommendation {
+            color: #94a3b8;
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .metrics {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+        .metric-item { display: flex; flex-direction: column; gap: 4px; }
+        .metric-label { color: #475569; font-size: 0.8rem; }
+        .metric-value { color: #f1f5f9; font-size: 1rem; font-weight: 500; }
+        .verdict {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .verdict-low    { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+        .verdict-medium { background: rgba(245,158,11,0.15); color: #f59e0b; border: 1px solid rgba(245,158,11,0.3); }
+        .verdict-high   { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.3); }
+        .btn {
+            display: inline-block;
+            padding: 12px 32px;
+            background: linear-gradient(135deg, #0ea5e9, #6366f1);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        .divider {
+            color: #475569;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    {% if color == 'green' %}
+        <div class="result-icon">✅</div>
+        <div class="risk-tier low">{{ risk_tier }}</div>
+        <div class="verdict verdict-low">{{ recommendation }}</div>
+    {% elif color == 'orange' %}
+        <div class="result-icon">⚠️</div>
+        <div class="risk-tier medium">{{ risk_tier }}</div>
+        <div class="verdict verdict-medium">{{ recommendation }}</div>
+    {% else %}
+        <div class="result-icon">🚫</div>
+        <div class="risk-tier high">{{ risk_tier }}</div>
+        <div class="verdict verdict-high">{{ recommendation }}</div>
+    {% endif %}
+
+    <div class="divider">Merchant Summary</div>
+    <div class="metrics">
+        <div class="metric-item">
+            <span class="metric-label">Monthly Revenue</span>
+            <span class="metric-value">₹{{ "{:,.0f}".format(revenue) }}</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Monthly Transactions</span>
+            <span class="metric-value">{{ txns | int }}</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Refund Rate</span>
+            <span class="metric-value">{{ refund }}%</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Failure Rate</span>
+            <span class="metric-value">{{ failure }}%</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">Category</span>
+            <span class="metric-value">{{ category | capitalize }}</span>
+        </div>
+        <div class="metric-item">
+            <span class="metric-label">City</span>
+            <span class="metric-value">{{ city | capitalize }}</span>
+        </div>
+    </div>
+
+    <a href="/" class="btn">← Assess Another Merchant</a>
+</div>
+</body>
+</html>
