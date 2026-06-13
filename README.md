@@ -55,3 +55,10 @@ upi_merchant_health/
 4. Open and run merchant_health_ml.ipynb
 5. Start web app: python app.py
 6. Open http://127.0.0.1:5000 in your browser
+
+## Screenshots
+### Input Form
+![Input Form](screenshot_form.png)
+
+### Risk Assessment Result
+![Risk Result](screenshot_result.png)
